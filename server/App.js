@@ -3,6 +3,7 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 
 import authRouter from './routes/auth.routes.js'
+import taskRouter from './routes/task.routes.js';
 
 const app = express();
 
@@ -14,5 +15,6 @@ app.use(cookieParser()) //use to parse cookies
 app.use(express.urlencoded({extended: true})); //to parse url-encoded form data
 
 app.use("/api/auth", authRouter);
+app.use("/api/task", taskRouter)
 
 export default app;
