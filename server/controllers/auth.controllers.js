@@ -114,12 +114,15 @@ const logout = (req, res) => {
 const getMe = async (req, res) => {
     try {
         const user = await User.findById(req.user._id)
-        res.status(200).json(user)
+            //.populate("productivityBlocks")
+            .populate("tasks");
+
+        res.status(200).json(user);
     } catch (error) {
         console.log("Error in getMe controller", error.message);
-        res.status(500).json({error: "Internal server error"});
+        res.status(500).json({ error: "Internal server error" });
     }
+};
 
-}
 
 export {signup, login, logout, getMe};
