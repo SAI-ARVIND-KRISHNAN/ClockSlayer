@@ -18,6 +18,11 @@ const taskSchema = new mongoose.Schema({
         type: String, // e.g., "Work", "Personal", "Study"
         required: true
     },
+    priority: {
+        type: String,
+        enum: ["Low", "Medium", "High"],
+        default: "Medium"
+    },
     deadline: {
         type: Date,
         default: () => new Date(Date.now() + 24 * 60 * 60 * 1000) // 24 hours from now
