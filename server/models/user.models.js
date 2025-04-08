@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema({
     },
     productivityScore: {
         type: Number,
-        default: 0
+        default: 50
     },
     productivityBlocks: [
         {

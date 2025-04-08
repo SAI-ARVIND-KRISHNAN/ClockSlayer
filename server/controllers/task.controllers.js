@@ -82,6 +82,7 @@ export const markTaskCompleted = async (req, res) => {
 export const getAllTasks = async (req, res) => {
     try {
         const tasks = await Task.find({ user: req.user._id }).sort({ createdAt: -1 });
+        const user = await User.findById(req.user._id); // For productivityScore
 
         const enrichedTasks = await Promise.all(
             tasks.map(async (task) => {
@@ -94,30 +95,45 @@ export const getAllTasks = async (req, res) => {
                 }
 
                 try {
-                    const response = await axios.post("http://localhost:8000/predict", {
+                    const created = new Date(task.createdAt);
+                    const deadline = new Date(task.deadline);
+                    const now = new Date();
+
+                    const deadlineGap = (deadline - created) / (1000 * 60 * 60); // in hours
+                    const dayOfWeek = created.getUTCDay(); // 0 = Sunday
+                    const hourOfDay = created.getUTCHours();
+                    const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
+                    const timeOfDay = hourOfDay < 12 ? "Morning" : hourOfDay < 18 ? "Afternoon" : "Evening";
+                    const hasDescription = task.description && task.description.trim().length > 0;
+                    const titleLength = task.title.trim().split(" ").length;
+                    const timeToDeadline = (deadline - now) / (1000 * 60 * 60); // in hours
+                    const urgency = timeToDeadline < 12 ? "Urgent" : timeToDeadline < 24 ? "Soon" : "Low";
+                    const taskLength = titleLength < 3 ? "Short" : titleLength < 6 ? "Medium" : "Long";
+
+                    const requestPayload = {
                         user_id: task.user.toString(),
                         type: task.type,
                         priority: task.priority || "Medium",
-                        deadline: task.deadline.toISOString(),
-                        createdAt: task.createdAt.toISOString()
-                    });
+                        deadline_gap: deadlineGap,
+                        dayOfWeek,
+                        hourOfDay,
+                        isWeekend,
+                        timeOfDay,
+                        hasDescription,
+                        titleLength,
+                        urgency,
+                        taskLength,
+                        productivityScore: user.productivityScore || 50
+                    };
 
-                    try {
+                    const response = await axios.post("http://localhost:8000/predict", requestPayload);
 
-                        return {
-                            ...task.toObject(),
-                            etc: response.data["Formatted ETC"],
-                            etc_minutes: response.data["Estimated Time of Completion (in minutes)"]
-                        };
-                        
-                    } catch (err) {
-                        console.log("error with return statement");
-                        return {
-                            ...task.toObject(),
-                            etc: "ETC unavailable",
-                            etc_minutes: null
-                        };
-                    }
+                    return {
+                        ...task.toObject(),
+                        etc: response.data["Formatted ETC"],
+                        etc_minutes: response.data["Estimated Time of Completion (in minutes)"]
+                    };
+
                 } catch (err) {
                     console.error(`❌ ETC fetch failed for task "${task.title}":`, err.message);
                     return {
