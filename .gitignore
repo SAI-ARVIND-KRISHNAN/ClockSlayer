@@ -28,4 +28,5 @@ node_modules
 ETC/models/*
 ETC/encoders/*
 ETC/training_meta/*
+Score/models/*
 __pycache__
