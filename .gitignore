@@ -29,4 +29,5 @@ ETC/models/*
 ETC/encoders/*
 ETC/training_meta/*
 Score/models/*
+Recommender/recommender_models
 __pycache__
