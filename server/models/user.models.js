@@ -60,6 +60,25 @@ const userSchema = new mongoose.Schema({
     default: "Neutral"
   },
 
+  // Mood log history (NEW)
+  moodLog: [
+    {
+      mood: {
+        type: String,
+        enum: ["Neutral", "Happy", "Stressed", "Tired", "Motivated"],
+        required: true
+      },
+      timestamp: {
+        type: Date,
+        default: Date.now
+      },
+      source: {
+        type: String,
+        default: "self_report"
+      }
+    }
+  ],
+
   // Energy log history
   energyLog: [
     {
