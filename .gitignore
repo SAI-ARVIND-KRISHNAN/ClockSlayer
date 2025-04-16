@@ -25,9 +25,5 @@ dist-ssr
 
 .env
 node_modules
-ETC/models/*
-ETC/encoders/*
-ETC/training_meta/*
-Score/models/*
-Recommender/recommender_models
+models/*
 __pycache__
