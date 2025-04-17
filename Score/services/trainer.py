@@ -119,6 +119,6 @@ async def train_user_model(user_id: str, task_list: list = None) -> None:
     # Log it
     logger.info(f"[EVAL] Productivity Model → R²: {prod_r2:.4f}, MAE: {prod_mae:.4f}")
     logger.info(f"[EVAL] Distraction Model → R²: {dist_r2:.4f}, MAE: {dist_mae:.4f}")
-    
+
     update_model_registry(user_id, version, len(df), is_baseline_model)
     cleanup_old_versions(user_id, keep_last=2)
