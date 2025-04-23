@@ -18,12 +18,12 @@ ClockSlayer is designed to help users fight distraction and reclaim deep work by
 ## Monorepo Structure
 
 ClockSlayer-production/  
-├── Analytics/       → Tracks session logs, user behavior, and analytics  
-├── ETC/             → Embedding + Transformer Core (ML-based prediction engine)  
-├── Recommender/     → Personalized productivity model trainer & inference  
-├── Reminder/        → Notification and reminder scheduler  
-├── Score/           → Calculates focus scores and productivity metrics  
-├── server/          → Main Express API and route controller (entry point)
+─ Analytics/       → Tracks session logs, user behavior, and analytics  
+─ ETC/             → Embedding + Transformer Core (ML-based prediction engine)  
+─ Recommender/     → Personalized productivity model trainer & inference  
+─ Reminder/        → Notification and reminder scheduler  
+─ Score/           → Calculates focus scores and productivity metrics  
+─ server/          → Main Express API and route controller (entry point)
 
 Each submodule includes:
 - Microservice logic
