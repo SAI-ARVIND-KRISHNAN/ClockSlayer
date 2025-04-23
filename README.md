@@ -79,10 +79,10 @@ pip install -r requirements.txt
 python main.py
 ```
 
-##TO-DO
--WebSocket-based live session tracking
--GPU-accelerated ML inference
--API documentation (Swagger or Postman collection)
--Next.js frontend integration
--CI/CD with GitHub Actions and Docker
+## TO-DO
+- WebSocket-based live session tracking
+- GPU-accelerated ML inference
+- API documentation (Swagger or Postman collection)
+- Next.js frontend integration
+- CI/CD with GitHub Actions and Docker
 
